@@ -1,6 +1,6 @@
 {
-  "name": "Ashihara Scoreboard",
-  "short_name": "Ashihara Score",
+  "name": "UFMA & ASHMAR Scoreboard",
+  "short_name": "UFMA & ASHMAR ScoreBoard",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#000000",
