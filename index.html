@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#000000">
+    <title>UFMA & ASHMAR Karate Scoreboard</title>
+    <link rel="icon" href="assets/favicon.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ========================== -->
+    <!-- LANDING PAGE SECTION       -->
+    <!-- ========================== -->
+
+    <section id="landing-page" class="landing-container">
+    <div class="split-screen left-split">
+        <div class="landing-content">
+            <h1 class="main-headline"><br>WELCOME TO UFMA & ASHMARA<br>SCOREBOARD</h1>
+            <div class="landing-buttons">
+                <button id="enter-site-btn" class="landing-btn filled">Start Tournament</button>
+            </div>
+            <p class="landing-desc">
+                Professional Scoreboard System for UFMA Tournaments. 
+                Manage brackets, track scores, and handle match timers efficiently.
+            </p>
+        </div>
+    </div>
+
+    <!-- UPDATED RIGHT SPLIT -->
+    <div class="split-screen right-split">
+        <img src="assets/ASHMAR.png" class="slider-img active" alt="Slider 1">
+        <img src="assets/UFMA.png" class="slider-img" alt="Slider 2">
+    </div>
+</section>
+
+
+
+    <!-- ========================== -->
+    <!-- SCOREBOARD APP SHELL       -->
+    <!-- ========================== -->
+    <div id="round-banner" class="round-banner hidden">Round 1 – Get Ready</div>
+
+    <!-- Main App Shell (Hidden initially) -->
+    <div class="app-shell hidden" id="main-app-shell">
+        
+        <!-- Setup Screen (Overlay) -->
+        <div id="setup-screen" class="setup-overlay hidden">
+            <div class="setup-card">
+                <h2>Tournament Setup</h2>
+                <label class="field-label" for="player-count-select">How many players will participate?</label>
+                <select id="player-count-select" class="field-control">
+                    <option value="2">2 Players</option>
+                    <option value="4">4 Players</option>
+                    <option value="8">8 Players</option>
+                    <option value="16">16 Players</option>
+                    <option value="32">32 Players</option>
+                    <option value="64">64 Players</option>
+                </select>
+    
+                <div id="player-name-grid" class="player-name-grid"></div>
+    
+                <label class="field-label" for="match-duration-select">Match Duration</label>
+                <select id="match-duration-select" class="field-control"></select>
+    
+                <label class="field-label" for="gender-select">Gender</label>
+                <select id="gender-select" class="field-control">
+                    <option value="Male" selected>Male</option>
+                    <option value="Female">Female</option>
+                </select>
+    
+                <label class="field-label" for="weight-class-select">Weight Class</label>
+                <select id="weight-class-select" class="field-control"></select>
+    
+                <div class="setup-actions">
+                    <button id="start-tournament-btn" class="primary-btn">Start Tournament</button>
+                    <button class="ghost-btn" data-history-trigger>View History</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scoreboard Header -->
+        <div class="shell-header">
+            <button id="back-to-landing-btn" class="ghost-btn">&larr; Home</button>
+            <div class="round-indicator">Round <span id="round-number">1</span></div>
+            <button id="history-btn" class="ghost-btn">View History</button>
+        </div>
+
+        <div class="main-title" role="heading" aria-level="1">
+            <img src="assets/ethiopian-flag.png" alt="Ethiopian flag" class="title-image title-image--flag" onerror="this.style.display='none'">
+            
+            <img src="assets/title.png" alt="ASHIHARA SCOREBOARD" class="main-title-image" onerror="this.style.display='none'">
+            
+            <img src="assets/logo.png" alt="EKF logo" class="title-image title-image--logo" onerror="this.style.display='none'">
+        </div>
+
+        <div class="referee-container">
+            <input type="text" class="referee-input" placeholder="Referee Name" id="referee-input">
+        </div>
+
+        <!-- Scoreboard UI -->
+        <div id="scoreboard-ui" class="scoreboard-suite">
+            <div class="scoreboard">
+                <div class="top-section">
+                    <div class="team ao" data-side="left">
+                        <div class="points-buttons">
+                            <button class="score-btn ippon" data-team="ao" data-points="3" data-tooltip="Add Ippon (3)">Ippon</button>
+                            <button class="score-btn wazaari" data-team="ao" data-points="2" data-tooltip="Add Waza-ari (2)">Wazaari</button>
+                            <button class="score-btn yuko" data-team="ao" data-points="1" data-tooltip="Add Yuko (1)">Yuko</button>
+                            <button class="score-btn subtract" data-team="ao" data-points="-1" data-tooltip="Remove 1">-</button>
+                        </div>
+                        <div class="team-info">
+                            <input type="text" class="team-name-input" id="ao-name-input" value="SHIRO" data-team="ao">
+                            <div class="score-display" id="ao-score">0</div>
+                        </div>
+                        <div class="senshu-container">
+                            <div class="senshu-indicator" id="ao-senshu" data-team="ao" data-tooltip="Senshu (Advantage)">S</div>
+                        </div>
+                    </div>
+
+                    <div class="center-spacer">
+                        <button class="swap-btn" id="swap-sides-btn" data-tooltip="Swap Colors/Names">&#8646;</button>
+                    </div>
+
+                    <div class="team aka" data-side="right">
+                        <div class="senshu-container">
+                            <div class="senshu-indicator" id="aka-senshu" data-team="aka" data-tooltip="Senshu (Advantage)">S</div>
+                        </div>
+                        <div class="team-info">
+                            <input type="text" class="team-name-input" id="aka-name-input" value="AKA" data-team="aka">
+                            <div class="score-display" id="aka-score">0</div>
+                        </div>
+                        <div class="points-buttons">
+                            <button class="score-btn ippon" data-team="aka" data-points="3" data-tooltip="Add Ippon (3)">Ippon</button>
+                            <button class="score-btn wazaari" data-team="aka" data-points="2" data-tooltip="Add Waza-ari (2)">Wazaari</button>
+                            <button class="score-btn yuko" data-team="aka" data-points="1" data-tooltip="Add Yuko (1)">Yuko</button>
+                            <button class="score-btn subtract" data-team="aka" data-points="-1" data-tooltip="Remove 1">-</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bottom-section">
+                    <div class="penalty-grid ao-penalties" data-team="ao">
+                        <button class="penalty-btn c1" data-team="ao" data-penalty="C1">C1</button>
+                        <button class="penalty-btn c2" data-team="ao" data-penalty="C2">C2</button>
+                        <button class="penalty-btn j1" data-team="ao" data-penalty="J1">J1</button>
+                        <button class="penalty-btn j2" data-team="ao" data-penalty="J2">J2</button>
+                        <button class="penalty-btn hc" data-team="ao" data-penalty="HC">HC</button>
+                        <button class="penalty-btn h" data-team="ao" data-penalty="H">H</button>
+                        <button class="penalty-btn s-btn" data-team="ao" data-penalty="S">S</button>
+                        <button class="penalty-btn k-btn" data-team="ao" data-penalty="K">K</button>
+                    </div>
+
+                    <div class="ko-container">
+                        <button class="ko-btn" data-team="ao">KNOCK OUT</button>
+                    </div>
+
+                    <div class="time-center">
+                        <div class="timer-container">
+                            <div class="time-display" id="timer" data-tooltip="Match Time">02:00</div>
+                        </div>
+                        <div class="timer-controls">
+                            <button class="penalty-btn timer-adj minus" data-type="action">-</button>
+                            <button class="penalty-btn timer-adj plus" data-type="action">+</button>
+                        </div>
+                    </div>
+
+                    <div class="ko-container">
+                        <button class="ko-btn" data-team="aka">KNOCK OUT</button>
+                    </div>
+
+                    <div class="penalty-grid aka-penalties" data-team="aka">
+                        <button class="penalty-btn c1" data-team="aka" data-penalty="C1">C1</button>
+                        <button class="penalty-btn c2" data-team="aka" data-penalty="C2">C2</button>
+                        <button class="penalty-btn j1" data-team="aka" data-penalty="J1">J1</button>
+                        <button class="penalty-btn j2" data-team="aka" data-penalty="J2">J2</button>
+                        <button class="penalty-btn hc" data-team="aka" data-penalty="HC">HC</button>
+                        <button class="penalty-btn h" data-team="aka" data-penalty="H">H</button>
+                        <button class="penalty-btn s-btn" data-team="aka" data-penalty="S">S</button>
+                        <button class="penalty-btn k-btn" data-team="aka" data-penalty="K">K</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scoreboard-flags">
+                <img id="ao-flag-score" class="scoreboard-flag scoreboard-flag-ao" alt="AO flag" style="display:none;">
+                <img id="aka-flag-score" class="scoreboard-flag scoreboard-flag-aka" alt="AKA flag" style="display:none;">
+            </div>
+
+            <div class="controls-section">
+                <button id="reset-timer-btn" class="ctrl-btn" data-tooltip="Reset Match">&#128472;</button> 
+                <button id="start-pause-btn" class="ctrl-btn big-play" data-tooltip="Start/Pause">&#9658;</button>
+                <button id="fullscreen-btn" class="ctrl-btn" data-tooltip="Fullscreen">&#x26F6;</button> 
+            </div>
+        </div>
+
+        <section class="bracket-panel">
+            <div class="bracket-header">
+                <h2>Tournament Bracket</h2>
+                <span id="bracket-status">Awaiting setup</span>
+            </div>
+            <div id="bracket-grid" class="bracket-grid"></div>
+        </section>
+
+        <!-- Modals -->
+        <div id="history-modal" class="modal hidden">
+            <div class="modal-card">
+                <header class="modal-header history-header">
+                    <h3>Match History</h3>
+                    <div class="history-actions">
+                        <button id="erase-history-btn" class="ghost-btn danger-btn">Erase History</button>
+                        <button class="icon-btn" data-close-history>&times;</button>
+                    </div>
+                </header>
+                <div class="history-body">
+                    <aside class="history-list-wrapper">
+                        <ul id="history-list"></ul>
+                    </aside>
+                    <article id="history-preview" aria-live="polite">Select a log to preview its contents.</article>
+                </div>
+            </div>
+        </div>
+
+        <!-- DECISION CONFIRMATION MODAL -->
+        <div id="decision-modal" class="modal hidden">
+            <div class="modal-card winner-card">
+                <header class="modal-header">
+                    <h3 id="decision-title">Confirm Action</h3>
+                    <button class="icon-btn" id="decision-close">&times;</button>
+                </header>
+                <p id="decision-message" style="margin: 20px 0; font-size: 1.1rem; line-height: 1.5;"></p>
+                <div class="winner-actions">
+                    <button id="decision-confirm-btn" class="primary-btn danger-btn" style="border-color: red; color: white; background: #990000;">OK</button>
+                    <button id="decision-cancel-btn" class="ghost-btn">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- WINNER MODAL -->
+        <div id="winner-modal" class="modal hidden">
+            <div class="modal-card winner-card">
+                <header class="modal-header">
+                    <h3 id="winner-title">Winner</h3>
+                    <button class="icon-btn" id="winner-modal-close">&times;</button>
+                </header>
+                <p id="winner-message"></p>
+                <div class="winner-controls">
+                    <button id="winner-modal-next" class="primary-btn">Load Next Match</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
